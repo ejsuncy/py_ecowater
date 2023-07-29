@@ -4,7 +4,7 @@ from datetime import datetime
 
 from typing import List, Optional
 
-import constants
+from . import constants
 
 logger = logging.getLogger("py_ecowater")
 

@@ -1,5 +1,5 @@
 # py_ecowater
-![Current Version](https://img.shields.io/badge/Version-0.1.1-brightgreen)
+![Current Version](https://img.shields.io/badge/Version-0.1.2-brightgreen)
 
 A python library for getting device data from Ecowater API for devices such as the Rheem RHW42 water softener, which 
 provides WI-FI connectivity via the iQua app.
