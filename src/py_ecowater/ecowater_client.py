@@ -4,9 +4,9 @@ from typing import Optional, List
 
 import requests as r
 import logging
-import constants
-from constants import EcowaterConstants
-from model import UserProfile, Devices, Systems, SystemState
+from . import constants
+from .constants import EcowaterConstants
+from .model import UserProfile, Devices, Systems, SystemState
 
 
 class EcowaterClient(object):
