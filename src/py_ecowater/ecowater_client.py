@@ -16,13 +16,16 @@ class EcowaterClient(object):
         self.logger: logging.Logger = logging.getLogger("py_ecowater")
         self.auth_token: str = ""
         self.auth_expiration: Optional[datetime.datetime] = None
+        self.auth_expiration_milliseconds: Optional[int] = None
         self.devices: Optional[Devices] = None
         self.ecowater_constants: EcowaterConstants = EcowaterConstants(host)
 
     def __authenticate(self) -> bool:
         if self.auth_token and self.auth_expiration:
-            if datetime.datetime.now() + datetime.timedelta(days=10) > self.auth_expiration:
-                self.logger.info("The Auth token expires within 10 days, need to refresh")
+            auth_minutes_remaining = (self.auth_expiration - datetime.datetime.now()).total_seconds() / 60
+            if datetime.datetime.now() + datetime.timedelta(minutes=self.ecowater_constants.auth_expiry_buffer_minutes) > self.auth_expiration:
+                self.logger.info(f"The Auth token expires in {auth_minutes_remaining} min, which shorter than the "
+                                 f"configured buffer of {self.ecowater_constants.auth_expiry_buffer_minutes} min, need to refresh")
                 self.auth_token = ""
                 self.auth_expiration = None
             else:
@@ -60,7 +63,8 @@ class EcowaterClient(object):
             if "token" in data:
                 self.auth_token = data["token"]
             if "expiresIn" in data:
-                self.auth_expiration = datetime.datetime.now() + datetime.timedelta(milliseconds=data["expiresIn"])
+                self.auth_expiration_milliseconds = data["expiresIn"]
+                self.auth_expiration = datetime.datetime.now() + datetime.timedelta(milliseconds=self.auth_expiration_milliseconds)
             if "deviceMap" in data:
                 self.devices: Optional[Devices] = Devices(data["deviceMap"])
 
