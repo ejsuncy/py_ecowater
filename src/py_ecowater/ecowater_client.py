@@ -16,7 +16,6 @@ class EcowaterClient(object):
         self.logger: logging.Logger = logging.getLogger("py_ecowater")
         self.auth_token: str = ""
         self.auth_expiration: Optional[datetime.datetime] = None
-        self.auth_expiration_milliseconds: Optional[int] = None
         self.devices: Optional[Devices] = None
         self.ecowater_constants: EcowaterConstants = EcowaterConstants(host)
 
@@ -63,8 +62,7 @@ class EcowaterClient(object):
             if "token" in data:
                 self.auth_token = data["token"]
             if "expiresIn" in data:
-                self.auth_expiration_milliseconds = data["expiresIn"]
-                self.auth_expiration = datetime.datetime.now() + datetime.timedelta(milliseconds=self.auth_expiration_milliseconds)
+                self.auth_expiration = datetime.datetime.now() + datetime.timedelta(milliseconds=data["expiresIn"])
             if "deviceMap" in data:
                 self.devices: Optional[Devices] = Devices(data["deviceMap"])
 
