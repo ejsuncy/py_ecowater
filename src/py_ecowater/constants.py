@@ -21,3 +21,4 @@ class EcowaterConstants(object):
         self.headers_api["host"] = self.host
         self.headers_auth = ECOWATER_HEADERS.copy()
         self.headers_auth["content-type"] = "application/json;charset=utf-8"
+        self.auth_expiry_buffer_minutes = 10
