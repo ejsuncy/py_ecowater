@@ -11,6 +11,9 @@ pip install py_ecowater
 ```
 
 ## Usage
+The Ecowater API only allows 250 requests over 6 hours. The library currently does not implement any rate limiting, so
+users of this library should implement their own rate limiting to avoid having their account locked.
+
 The primary class is `EcowaterClient`.  It takes two parameters, `username` and `password`.  
 These are the same credentials you use to log in to the app. The primary methods are `get_devices`, `get_user_profile`, 
 `get_systems`, and `get_system_state`.  
